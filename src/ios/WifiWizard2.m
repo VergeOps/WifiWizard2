@@ -210,7 +210,7 @@
                 NSString *ssid = [r objectForKey:(id)kCNNetworkInfoKeySSID]; //@"SSID"
 
                 if ([ssid rangeOfString:ssidPrefixString].location != NSNotFound){
-                    pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:ssidString];
+                    pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:ssid];
                 }else{
                     pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:error.description];
                 }

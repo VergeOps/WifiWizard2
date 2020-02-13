@@ -88,6 +88,57 @@
 
 }
 
+- (void)iOSConnectNetworkSSIDPrefix:(CDVInvokedUrlCommand*)command {
+
+    __block CDVPluginResult *pluginResult = nil;
+
+	NSString * ssidPrefixString;
+	NSString * passwordString;
+	NSDictionary* options = [[NSDictionary alloc]init];
+
+	options = [command argumentAtIndex:0];
+	ssidPrefixString = [options objectForKey:@"Ssid"];
+	passwordString = [options objectForKey:@"Password"];
+
+	if (@available(iOS 13.0, *)) {
+	    if (ssidPrefixString && [ssidPrefixString length]) {
+			NEHotspotConfiguration *configuration = [[NEHotspotConfiguration
+				alloc] initWithSSIDPrefix:ssidPrefixString
+					passphrase:passwordString
+						isWEP:(BOOL)false];
+
+			configuration.joinOnce = false;
+
+            [[NEHotspotConfigurationManager sharedManager] applyConfiguration:configuration completionHandler:^(NSError * _Nullable error) {
+
+                NSDictionary *r = [self fetchSSIDInfo];
+
+                NSString *ssid = [r objectForKey:(id)kCNNetworkInfoKeySSID]; //@"SSID"
+
+                if ([ssid rangeOfString:ssidPrefixString].location != NSNotFound){
+                    pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:ssid];
+                }else{
+                    pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:error.description];
+                }
+                [self.commandDelegate sendPluginResult:pluginResult
+                                            callbackId:command.callbackId];
+            }];
+
+
+		} else {
+			pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"SSID Not provided"];
+            [self.commandDelegate sendPluginResult:pluginResult
+                                        callbackId:command.callbackId];
+		}
+	} else {
+		pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"iOS 13+ not available"];
+        [self.commandDelegate sendPluginResult:pluginResult
+                                    callbackId:command.callbackId];
+	}
+
+
+}
+
 - (void)iOSConnectOpenNetwork:(CDVInvokedUrlCommand*)command {
 
     __block CDVPluginResult *pluginResult = nil;
@@ -102,6 +153,53 @@
         if (ssidString && [ssidString length]) {
             NEHotspotConfiguration *configuration = [[NEHotspotConfiguration
                     alloc] initWithSSID:ssidString];
+
+            configuration.joinOnce = false;
+
+            [[NEHotspotConfigurationManager sharedManager] applyConfiguration:configuration completionHandler:^(NSError * _Nullable error) {
+
+                NSDictionary *r = [self fetchSSIDInfo];
+
+                NSString *ssid = [r objectForKey:(id)kCNNetworkInfoKeySSID]; //@"SSID"
+
+                if ([ssid rangeOfString:ssidPrefixString].location != NSNotFound){
+                    pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:ssid];
+                }else{
+                    pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:error.description];
+                }
+                [self.commandDelegate sendPluginResult:pluginResult
+                                            callbackId:command.callbackId];
+            }];
+
+
+        } else {
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"SSID Not provided"];
+            [self.commandDelegate sendPluginResult:pluginResult
+                                        callbackId:command.callbackId];
+        }
+    } else {
+        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"iOS 13+ not available"];
+        [self.commandDelegate sendPluginResult:pluginResult
+                                    callbackId:command.callbackId];
+    }
+
+
+}
+
+- (void)iOSConnectOpenNetworkSSIDPrefix:(CDVInvokedUrlCommand*)command {
+
+    __block CDVPluginResult *pluginResult = nil;
+
+    NSString * ssidPrefixString;
+    NSDictionary* options = [[NSDictionary alloc]init];
+
+    options = [command argumentAtIndex:0];
+    ssidPrefixString = [options objectForKey:@"Ssid"];
+
+    if (@available(iOS 13.0, *)) {
+        if (ssidPrefixString && [ssidPrefixString length]) {
+            NEHotspotConfiguration *configuration = [[NEHotspotConfiguration
+                    alloc] initWithSSIDPrefix:ssidPrefixString];
 
             configuration.joinOnce = false;
 

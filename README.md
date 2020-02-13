@@ -126,12 +126,16 @@ function example(){
 # iOS Functions
 For functionality, you need to note the following:
  - Connect/Disconnect only works for iOS11+
+ - Connecting with SSID prefix only works for iOS13+
  - Can't run in the simulator so you need to attach an actual device when building with xCode
  - Will ensure 'HotspotConfiguration' and 'NetworkExtensions' capabilities are added to your xCode project
  - To connect to open network omit `ssidPassword` or call with `false`
 
 ```javascript
 WifiWizard2.iOSConnectNetwork(ssid, ssidPassword)
+```
+```javascript
+WifiWizard2.iOSConnectNetworkSSIDPrefix(ssid, ssidPassword)
 ```
 ```javascript
 WifiWizard2.iOSDisconnectNetwork(ssid)

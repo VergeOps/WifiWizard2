@@ -50,6 +50,8 @@
 
         <!-- frameworks -->
         <framework src="NetworkExtension.framework" />
+
+        <framework src="CoreLocation.framework" />
             
         <!-- Add HotspotConfiguration & NetworkExtension Capabilities  -->
         <config-file parent="com.apple.developer.networking.HotspotConfiguration" target="*/Entitlements-Debug.plist">

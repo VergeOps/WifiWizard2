@@ -113,10 +113,10 @@
 
                 NSDictionary *r = [self fetchSSIDInfo];
 
-               /NSString *ssid = [r objectForKey:(id)kCNNetworkInfoKeySSID]; //@"SSID"
+                NSString *ssid = [r objectForKey:(id)kCNNetworkInfoKeySSID]; //@"SSID"
 
                 //if ([ssid rangeOfString:ssidPrefixString].location != NSNotFound){
-                    pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:ssidPrefixString];
+                    pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:ssid];
                // }else{
                    // pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:error.description];
                // }

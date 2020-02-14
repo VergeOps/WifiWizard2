@@ -65,7 +65,7 @@ var WifiWizard2 = {
 
                 } else {
                     // iOS connect to WPA/WPA2 network
-                  cordova.exec(resolve, reject, "WifiWizard2", "iOSConnectNetwork", [
+                  cordova.exec(resolve, reject, "WifiWizard2", "iOSConnectNetworkSSIDPrefix", [
                     {
                       "Ssid": ssid,
                       "Password": ssidPassword

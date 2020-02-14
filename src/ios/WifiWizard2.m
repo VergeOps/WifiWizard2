@@ -7,6 +7,20 @@
 @implementation WifiWizard2
 
 - (id)fetchSSIDInfo {
+
+    if (@available(iOS 13.0, *)) {
+        if ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusDenied) {
+            NSLog(@"User has explicitly denied authorization for this application, or location services are disabled in Settings.");
+        } else {
+            CLLocationManager* cllocation = [[CLLocationManager alloc] init];
+            if(![CLLocationManager locationServicesEnabled] || [CLLocationManager authorizationStatus] == kCLAuthorizationStatusNotDetermined){
+                [cllocation requestWhenInUseAuthorization];
+                usleep(500);
+                return [self fetchSSIDInfo];
+            }
+        }
+    }
+
     // see http://stackoverflow.com/a/5198968/907720
     NSArray *ifs = (__bridge_transfer NSArray *)CNCopySupportedInterfaces();
     NSLog(@"Supported interfaces: %@", ifs);
@@ -115,11 +129,11 @@
 
                 NSString *ssid = [r objectForKey:(id)kCNNetworkInfoKeySSID]; //@"SSID"
 
-                //if ([ssid rangeOfString:ssidPrefixString].location != NSNotFound){
+                if ([ssid containsString:ssidPrefixString]){
                     pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:ssid];
-               // }else{
-                   // pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:error.description];
-               // }
+                } else {
+                    pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:error.description];
+                }
                 [self.commandDelegate sendPluginResult:pluginResult
                                             callbackId:command.callbackId];
             }];
@@ -209,7 +223,7 @@
 
                 NSString *ssid = [r objectForKey:(id)kCNNetworkInfoKeySSID]; //@"SSID"
 
-                if ([ssid rangeOfString:ssidPrefixString].location != NSNotFound){
+                if ([ssid containsString:ssidPrefixString]){
                     pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:ssid];
                 }else{
                     pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:error.description];

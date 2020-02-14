@@ -2,7 +2,8 @@
 #include <ifaddrs.h>
 #import <net/if.h>
 #import <SystemConfiguration/CaptiveNetwork.h>
-#import <NetworkExtension/NetworkExtension.h>  
+#import <NetworkExtension/NetworkExtension.h>
+#import <CoreLocation/CoreLocation.h>
 
 @implementation WifiWizard2
 

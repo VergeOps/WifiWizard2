@@ -354,6 +354,8 @@ var WifiWizard2 = {
      * @returns {Promise<any>}
      */
     setWifiEnabled: function (enabled) {
+        console.log('calling set wifi enabled with')
+        console.log(enabled)
         return new Promise(function (resolve, reject) {
             cordova.exec(resolve, reject, "WifiWizard2", "setWifiEnabled", [enabled]);
         });

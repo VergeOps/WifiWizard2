@@ -1912,4 +1912,3 @@ public class WifiWizard2 extends CordovaPlugin {
 
   }
 }
-

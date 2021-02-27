@@ -483,7 +483,7 @@ public class WifiWizard2 extends CordovaPlugin {
         WifiNetworkSpecifier.Builder builder = new WifiNetworkSpecifier.Builder();
         
         if (newSSID.contains("*")) {
-        	matcher = new PatternMatcher(newSSID.replace("*", ""), PatternMatcher.PATTERN_PREFIX);
+        	PatternMatcher matcher = new PatternMatcher(newSSID.replace("*", ""), PatternMatcher.PATTERN_PREFIX);
         	builder.setSsidPattern(matcher);
         	
         } else {

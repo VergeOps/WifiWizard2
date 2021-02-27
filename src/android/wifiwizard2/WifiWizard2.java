@@ -478,6 +478,13 @@ public class WifiWizard2 extends CordovaPlugin {
            Log.d(TAG, "WiFi not available");
            callbackContext.error("WiFi not available");
           }
+          @Override
+          public void onLost(Network network) {
+           super.onLost(network);
+           connectivityManager.bindProcessToNetwork(null);
+           Log.d(TAG, "WiFi lost");
+           callbackContext.error("WiFi lost");
+          }
         };
 
         WifiNetworkSpecifier.Builder builder = new WifiNetworkSpecifier.Builder();
@@ -1279,7 +1286,7 @@ public class WifiWizard2 extends CordovaPlugin {
 
       // For each network in the list, compare the SSID with the given one
       for (WifiConfiguration test : currentNetworks) {
-        if (test.SSID != null && test.SSID.equals(ssid)) {
+        if (test.SSID != null && (test.SSID.equals(ssid) || (ssid.contains("*") && test.SSID.startsWith(ssid.replace("*", ""))))) {
           networkId = test.networkId;
         }
       }

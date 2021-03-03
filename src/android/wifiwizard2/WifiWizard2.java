@@ -1286,7 +1286,7 @@ public class WifiWizard2 extends CordovaPlugin {
 
       // For each network in the list, compare the SSID with the given one
       for (WifiConfiguration test : currentNetworks) {
-        if (test.SSID != null && (test.SSID.equals(ssid) || (ssid.contains("*") && test.SSID.startsWith(ssid.replace("*", ""))))) {
+        if (test.SSID != null && (test.SSID.equals(ssid) || (ssid.contains("*") && test.SSID.toLowerCase().contains(ssid.toLowerCase().replace("*", ""))))) {
           networkId = test.networkId;
         }
       }

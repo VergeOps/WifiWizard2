@@ -232,15 +232,19 @@ var WifiWizard2 = {
      * @returns {Promise<any>}
      */
     disconnect: function (SSID) {
-        return new Promise(function (resolve, reject) {
+        if(device.platform === "Android" && parseInt(device.version.split('.')[0]) >= 10){
+            return
+        } else {
+            return new Promise(function (resolve, reject) {
 
-            if (SSID) {
-                cordova.exec(resolve, reject, "WifiWizard2", "disconnectNetwork", [WifiWizard2.formatWifiString(SSID)]);
-            } else {
-                cordova.exec(resolve, reject, "WifiWizard2", "disconnect", []);
-            }
+                if (SSID) {
+                    cordova.exec(resolve, reject, "WifiWizard2", "disconnectNetwork", [WifiWizard2.formatWifiString(SSID)]);
+                } else {
+                    cordova.exec(resolve, reject, "WifiWizard2", "disconnect", []);
+                }
 
-        });
+            });
+        }
     },
 
     /**

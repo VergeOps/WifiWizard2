@@ -181,12 +181,19 @@ var WifiWizard2 = {
                 return;
             }
 
+            console.log('Checking device');
             if (device.platform === "Android" && parseInt(device.version.split('.')[0]) < 10 && SSID.includes("*")) {
+                
+                console.log('Trying scan');
                 await WifiWizard2.scan().then(
                     networks => {
+                        console.log('Got networks');
                         for (const network of networks) {
-                            if (network.SSID.startsWith(SSID.replace("*", ""))) {
+                            if (network.SSID.toLowerCase().includes(SSID.toLowerCase().replace("*", "").replace("\"", ""))) {
+                                console.log('found ssid')
                                 SSID = network.SSID;
+                                console.log('using');
+                                console.log(SSID);
                             }
                         }
 

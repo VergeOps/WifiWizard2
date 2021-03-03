@@ -200,6 +200,8 @@ var WifiWizard2 = {
                     });
             }
 
+            console.log('Finished check');
+
             var wifiConfig = WifiWizard2.formatWifiConfig(SSID, password, algorithm, isHiddenSSID);
             bindAll = bindAll ? true : false;
 

@@ -181,6 +181,18 @@ var WifiWizard2 = {
                 return;
             }
 
+            if (device.platform === "Android" && parseInt(device.version.split('.')[0]) < 10 && SSID.includes("*")) {
+                await WifiWizard2.scan().then(
+                    networks => {
+                        for (const network of networks) {
+                            if (network.SSID.startsWith(SSID.replace("*", ""))) {
+                                SSID = network.SSID;
+                            }
+                        }
+
+                    });
+            }
+
             var wifiConfig = WifiWizard2.formatWifiConfig(SSID, password, algorithm, isHiddenSSID);
             bindAll = bindAll ? true : false;
 

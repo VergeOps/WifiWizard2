@@ -181,27 +181,6 @@ var WifiWizard2 = {
                 return;
             }
 
-            console.log('Checking device');
-            if (device.platform === "Android" && parseInt(device.version.split('.')[0]) < 10 && SSID.includes("*")) {
-                
-                console.log('Trying scan');
-                await WifiWizard2.scan().then(
-                    networks => {
-                        console.log('Got networks');
-                        for (const network of networks) {
-                            if (network.SSID.toLowerCase().includes(SSID.toLowerCase().replace("*", "").replace("\"", ""))) {
-                                console.log('found ssid')
-                                SSID = network.SSID;
-                                console.log('using');
-                                console.log(SSID);
-                            }
-                        }
-
-                    });
-            }
-
-            console.log('Finished check');
-
             var wifiConfig = WifiWizard2.formatWifiConfig(SSID, password, algorithm, isHiddenSSID);
             bindAll = bindAll ? true : false;
 
@@ -331,7 +310,11 @@ var WifiWizard2 = {
      */
     scan: function (options) {
         return new Promise(function (resolve, reject) {
-            cordova.exec(resolve, reject, 'WifiWizard2', 'scan', [options]);
+            if(device.platform === "Android" && !(parseInt(device.version.split('.')[0]) >= 10)) {
+                return
+            } else {
+                cordova.exec(resolve, reject, 'WifiWizard2', 'scan', [options]);
+            }
         });
     },
 

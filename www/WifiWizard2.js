@@ -181,7 +181,7 @@ var WifiWizard2 = {
                 return;
             }
 
-            console.log('Checking device');
+            /*console.log('Checking device');
             if (device.platform === "Android" && parseInt(device.version.split('.')[0]) < 10 && SSID.includes("*")) {
                 
                 console.log('Trying scan');
@@ -198,7 +198,7 @@ var WifiWizard2 = {
                         }
 
                     });
-            }
+            }*/
 
             console.log('Finished check');
 

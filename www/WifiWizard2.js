@@ -310,15 +310,7 @@ var WifiWizard2 = {
      */
     scan: function (options) {
         return new Promise(function (resolve, reject) {
-            console.log('device platform');
-            console.log(platform);
-            console.log('device version');
-            console.log(device.version);
-            if(device.platform === "Android" && !(parseInt(device.version.split('.')[0]) >= 10)) {
-                return
-            } else {
-                cordova.exec(resolve, reject, 'WifiWizard2', 'scan', [options]);
-            }
+            cordova.exec(resolve, reject, 'WifiWizard2', 'scan', [options]);
         });
     },
 
